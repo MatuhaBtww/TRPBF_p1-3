@@ -1,7 +1,6 @@
 from datetime import date
 from django.http import Http404
 from django.shortcuts import render
-from service import statistics as calculate
 from .repository import state
 
 def home(request):
@@ -11,7 +10,8 @@ def about(request):
     return render(request, 'about.html')
 
 def project_list(request):
-    return render(request, 'projects.html', {'projects': state()['projects']})
+    from db.queries import list_projects
+    return render(request, 'sql_projects.html', {'projects': list_projects(request.GET.get('q',''))})
 
 def project_detail(request, pk):
     p = next((p for p in state()['projects'] if p.id == pk), None)
@@ -33,7 +33,17 @@ def technologies(request):
     return render(request, 'references.html', {'title': 'Технологии', 'items': state()['technologies']})
 
 def statistics(request):
-    return render(request, 'statistics.html', {'stats': calculate(state(), date.today())})
+    from db.queries import statistics as sql_statistics
+    return render(request, 'statistics.html', {'stats': {r['name']:r['total'] for r in sql_statistics()}})
 
 def not_found(request, exception):
     return render(request, '404.html', status=404)
+
+def available(request):
+    from db.queries import available_developers
+    value = request.GET.get('date', date.today().isoformat())
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return render(request, 'available.html', {'error': 'Некорректная дата'}, status=400)
+    return render(request, 'available.html', {'items': available_developers(value), 'date': value})

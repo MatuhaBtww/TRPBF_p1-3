@@ -1,7 +1,12 @@
-from django.conf import settings
 from service import decode
-from storage import read_json
+from db.database import connect
 
 def state():
-    folder = settings.BASE_DIR / 'data'
-    return decode(read_json(folder / ('runtime.json' if (folder / 'runtime.json').exists() else 'seed.json')))
+    with connect() as con:
+        data = {kind:[dict(r) for r in con.execute(f'SELECT * FROM {kind}')] for kind in ('developers','technologies','statuses')}
+        data['projects'] = []
+        for row in con.execute('SELECT * FROM projects'):
+            p = dict(row)
+            p['technology_ids'] = [r[0] for r in con.execute('SELECT technology_id FROM project_technologies WHERE project_id=?',(p['id'],))]
+            data['projects'].append(p)
+    return decode(data)
