@@ -1,2 +1,7 @@
 {% extends 'base.html' %}{% block content %}<h1>Проекты</h1>
-{% for p in projects %}{% include 'includes/project_card.html' %}{% empty %}<p>Проекты не найдены.</p>{% endfor %}{% endblock %}
+{% if user.is_staff %}<a href="{% url 'tracker:create' %}">Добавить проект</a>{% endif %}
+<form method="get"><label>Поиск <input name="q" value="{{ request.GET.q }}" placeholder="Проект, разработчик, технология"></label>
+<label>Статус <select name="status"><option value="">Все</option>{% for s in statuses %}<option value="{{ s.pk }}" {% if selected_status == s.pk|stringformat:'s' %}selected{% endif %}>{{ s.name }}</option>{% endfor %}</select></label>
+<label>Сортировка <select name="sort"><option value="deadline" {% if sort == 'deadline' %}selected{% endif %}>Ближайший срок</option><option value="-deadline" {% if sort == '-deadline' %}selected{% endif %}>Поздний срок</option><option value="name" {% if sort == 'name' %}selected{% endif %}>Название А–Я</option><option value="-name" {% if sort == '-name' %}selected{% endif %}>Название Я–А</option></select></label><button>Применить</button></form>
+{% for p in projects %}{% include 'includes/project_card.html' %}{% empty %}<p>Проекты не найдены.</p>{% endfor %}
+<nav aria-label="Страницы">{% if page.has_previous %}<a href="?{{ params }}&amp;page={{ page.previous_page_number }}">Назад</a>{% endif %}<span>Страница {{ page.number }} из {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ params }}&amp;page={{ page.next_page_number }}">Далее</a>{% endif %}</nav>{% endblock %}

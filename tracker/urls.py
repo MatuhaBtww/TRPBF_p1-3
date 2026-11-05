@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 app_name = 'tracker'
-urlpatterns = [path('available/', views.available, name='available'),
+urlpatterns = [path('projects/new/', views.project_edit, name='create'),path('projects/<int:pk>/edit/', views.project_edit, name='edit'),path('available/', views.available, name='available'),
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('projects/', views.project_list, name='projects'),

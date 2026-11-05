@@ -1,3 +1,3 @@
 {% extends 'base.html' %}{% block title %}{{ p.name }}{% endblock %}{% block content %}
-<h1>{{ p.name }}</h1><p>Ответственный: {{ p.developer.name }}</p><p>Статус: {{ p.status.name }}</p>
+<h1>{{ p.name }}</h1>{% if user.is_staff %}<a href="{% url 'tracker:edit' p.pk %}">Изменить проект</a>{% endif %}<p>Ответственный: {{ p.developer.name }}</p><p>Статус: {{ p.status.name }}</p>
 <p>Срок: {{ p.deadline|date:'d.m.Y'|default:p.deadline }}</p><h2>Технологии</h2><ul>{% for t in technologies %}<li>{{ t.name }}</li>{% empty %}<li>Нет технологий</li>{% endfor %}</ul>{% endblock %}
