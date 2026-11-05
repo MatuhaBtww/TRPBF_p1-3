@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ developer.name }}</h1>{% for p in projects %}{% include 'includes/project_card.html' %}{% empty %}<p>Проектов нет.</p>{% endfor %}{% endblock %}

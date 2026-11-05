@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Статистика</h1><table><tr><th>Показатель</th><th>Количество</th></tr>{% for name,count in stats.items %}<tr><td>{{ name }}</td><td>{{ count }}</td></tr>{% endfor %}</table>{% endblock %}

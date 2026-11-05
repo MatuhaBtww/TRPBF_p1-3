@@ -1,0 +1,2 @@
+<article><h2><a href="{% url 'tracker:detail' p.id %}">{{ p.name }}</a></h2>
+<p>{{ p.developer.name }} · {{ p.status.name }} · срок {{ p.deadline|date:'d.m.Y'|default:p.deadline }}</p></article>

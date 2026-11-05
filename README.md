@@ -8,3 +8,5 @@
 
 Адреса: /, /about/, /projects/, /projects/1/, /developers/, /developers/1/, /technologies/, /statistics/.
 Консольная версия: python main.py.
+
+ПР6: HTML перенесен в templates; base.html, extends, include, for/empty, if, url, фильтры, CSS, SVG и JavaScript. Источник данных остается JSON.
