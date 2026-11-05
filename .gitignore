@@ -2,4 +2,7 @@
 __pycache__/
 .pytest_cache/
 *.pyc
+data/*.sqlite3
 data/runtime.json
+.local-secret
+work/
