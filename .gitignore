@@ -6,3 +6,13 @@ data/*.sqlite3
 data/runtime.json
 .local-secret
 work/
+
+.private/
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+
+.private/
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm

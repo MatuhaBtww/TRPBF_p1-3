@@ -1,0 +1,11 @@
+{
+  "main.py": true,
+  "models.py": true,
+  "service.py": true,
+  "rules.py": true,
+  "storage.py": true,
+  "validation.py": true,
+  "data/seed.json": true,
+  "tests/test_models.py": true,
+  "tests/test_service.py": true
+}

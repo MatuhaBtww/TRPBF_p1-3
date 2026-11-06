@@ -1,5 +1,10 @@
-<nav aria-label="Основное меню">
-<a href="{% url 'tracker:home' %}">Главная</a><a href="{% url 'tracker:projects' %}">Проекты</a>
-<a href="{% url 'tracker:developers' %}">Разработчики</a><a href="{% url 'tracker:technologies' %}">Технологии</a>
-<a href="{% url 'tracker:statistics' %}">Статистика</a><a href="{% url 'tracker:about' %}">О проекте</a>
-<a href="{% url 'tracker:available' %}">Загрузка</a><a href="/admin/">Администрирование</a></nav>
+<nav class="main-nav" aria-label="Основное меню">
+  <a href="{% url 'tracker:home' %}">Обзор</a>
+  <a href="{% url 'tracker:projects' %}">Проекты</a>
+  <a href="{% url 'tracker:developers' %}">Разработчики</a>
+  <a href="{% url 'tracker:technologies' %}">Технологии</a>
+  <a href="{% url 'tracker:statistics' %}">Статистика</a>
+  <a href="{% url 'tracker:available' %}">Загрузка</a>
+  <a href="{% url 'tracker:about' %}">О системе</a>
+  {% if user.is_staff %}<a href="{% url 'admin:index' %}">Администрирование</a>{% endif %}
+</nav>

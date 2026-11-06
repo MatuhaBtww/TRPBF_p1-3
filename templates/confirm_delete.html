@@ -1,0 +1,2 @@
+{% extends 'base.html' %}
+{% block content %}<h1>Удаление записи</h1><section class="panel"><p>Удалить «{{ object }}»? Действие нельзя отменить.</p>{% if error %}<p class="notice error">{{ error }}</p>{% endif %}<form method="post">{% csrf_token %}<div class="actions"><button class="danger">Удалить</button><a href="{{ cancel_url }}">Отмена</a></div></form></section>{% endblock %}

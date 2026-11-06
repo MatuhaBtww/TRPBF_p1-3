@@ -1,3 +1,6 @@
+Дата проверки: 06.11.2026
+Рабочая папка: C:\Users\Матвей\Documents\project_tracker
+
 COMMAND: python manage.py check
 System check identified no issues (0 silenced).
 EXIT CODE: 0
@@ -6,71 +9,259 @@ COMMAND: python manage.py makemigrations --check --dry-run
 No changes detected
 EXIT CODE: 0
 
-COMMAND: python -m pytest -v --basetemp=work/verification-tests
+COMMAND: python manage.py showmigrations tracker
+tracker
+ [X] 0001_initial
+ [X] 0002_admin_features
+ [X] 0003_alter_developer_name_alter_project_deadline_and_more
+EXIT CODE: 0
+
+COMMAND: python -m pytest -v --basetemp=work/final-tests
 ============================= test session starts =============================
 platform win32 -- Python 3.14.3, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\Матвей\Documents\project_tracker\.venv\Scripts\python.exe
 cachedir: .pytest_cache
 django: version: 5.2.19, settings: config.settings (from ini)
 rootdir: C:\Users\Матвей\Documents\project_tracker
 configfile: pytest.ini
+testpaths: tests
 plugins: platformdirs-4.14.5, django-4.14.0
-collecting ... collected 52 items
+collecting ... collected 71 items
 
-tests/test_web.py::test_import_preserves_all_data_and_links PASSED       [  1%]
-tests/test_web.py::test_import_does_not_overwrite PASSED                 [  3%]
-tests/test_web.py::test_pages[/] PASSED                                  [  5%]
-tests/test_web.py::test_pages[/about/] PASSED                            [  7%]
-tests/test_web.py::test_pages[/projects/] PASSED                         [  9%]
-tests/test_web.py::test_pages[/projects/1/] PASSED                       [ 11%]
-tests/test_web.py::test_pages[/developers/] PASSED                       [ 13%]
-tests/test_web.py::test_pages[/developers/1/] PASSED                     [ 15%]
-tests/test_web.py::test_pages[/technologies/] PASSED                     [ 17%]
-tests/test_web.py::test_pages[/statistics/] PASSED                       [ 19%]
-tests/test_web.py::test_pages[/available/] PASSED                        [ 21%]
-tests/test_web.py::test_404[/projects/999/] PASSED                       [ 23%]
-tests/test_web.py::test_404[/developers/999/] PASSED                     [ 25%]
-tests/test_web.py::test_404[/projects/by-slug/missing/] PASSED           [ 26%]
-tests/test_web.py::test_404[/not-found/] PASSED                          [ 28%]
-tests/test_web.py::test_bad_filters[status=abc] PASSED                   [ 30%]
-tests/test_web.py::test_bad_filters[status=4] PASSED                     [ 32%]
-tests/test_web.py::test_bad_filters[sort=__class__] PASSED               [ 34%]
-tests/test_web.py::test_bad_date PASSED                                  [ 36%]
-tests/test_web.py::test_search_and_sort PASSED                           [ 38%]
-tests/test_web.py::test_pagination_preserves_filters PASSED              [ 40%]
-tests/test_web.py::test_transitions_and_generated_field PASSED           [ 42%]
-tests/test_web.py::test_required_technology_and_protected_owner PASSED   [ 44%]
-tests/test_web.py::test_crud_form_admin_and_csrf PASSED                  [ 46%]
-tests/test_web.py::test_empty_technology_form_rejected PASSED            [ 48%]
-tests/test_web.py::test_slug_queries_and_statistics PASSED               [ 50%]
-tests/test_web.py::test_eager_loading_reduces_queries PASSED             [ 51%]
-tests/test_web.py::test_availability_excludes_completed PASSED           [ 53%]
-tests/test_web.py::test_failed_save_shows_form_error PASSED              [ 55%]
-tests/test_models.py::test_composition_and_methods PASSED                [ 57%]
-tests/test_models.py::test_status_property_is_read_only PASSED           [ 59%]
-tests/test_models.py::test_polymorphism_and_classmethod PASSED           [ 61%]
-tests/test_models.py::test_json_restores_shared_references PASSED        [ 63%]
-tests/test_service.py::test_pr1_functions PASSED                         [ 65%]
-tests/test_service.py::test_add_project PASSED                           [ 67%]
-tests/test_service.py::test_search_case_insensitive PASSED               [ 69%]
-tests/test_service.py::test_sort_and_filter PASSED                       [ 71%]
-tests/test_service.py::test_status_transition PASSED                     [ 73%]
-tests/test_service.py::test_invalid_transition_is_atomic PASSED          [ 75%]
-tests/test_service.py::test_invalid_project_does_not_mutate[999-techs0-2026-09-30] PASSED [ 76%]
-tests/test_service.py::test_invalid_project_does_not_mutate[1-techs1-2026-09-30] PASSED [ 78%]
-tests/test_service.py::test_invalid_project_does_not_mutate[1-techs2-2026-09-30] PASSED [ 80%]
-tests/test_service.py::test_invalid_project_does_not_mutate[1-techs3-2026-09-30] PASSED [ 82%]
-tests/test_service.py::test_invalid_project_does_not_mutate[1-techs4-2026-02-30] PASSED [ 84%]
-tests/test_service.py::test_statistics_excludes_completed PASSED         [ 86%]
-tests/test_service.py::test_references PASSED                            [ 88%]
-tests/test_service.py::test_round_trip PASSED                            [ 90%]
-tests/test_service.py::test_broken_reference_rejected PASSED             [ 92%]
-tests/test_service.py::test_duplicate_id_rejected PASSED                 [ 94%]
-tests/test_service.py::test_corrupt_json_not_overwritten PASSED          [ 96%]
+tests/test_requirements.py::test_replace_only_technology_in_form PASSED  [  1%]
+tests/test_requirements.py::test_reference_unicode_duplicates_rejected[Developer] PASSED [  2%]
+tests/test_requirements.py::test_reference_unicode_duplicates_rejected[Technology] PASSED [  4%]
+tests/test_requirements.py::test_new_project_cannot_skip_planned_status PASSED [  5%]
+tests/test_requirements.py::test_deleting_technologies_in_bulk_preserves_projects PASSED [  7%]
+tests/test_requirements.py::test_admin_handles_protected_technology_delete PASSED [  8%]
+tests/test_requirements.py::test_admin_bulk_status_actions_respect_rules PASSED [  9%]
+tests/test_requirements.py::test_admin_deadline_editable_in_list PASSED  [ 11%]
+tests/test_requirements.py::test_bootstrap_admin_persistent_idempotent_and_readonly_group PASSED [ 12%]
+tests/test_requirements.py::test_staff_without_model_permission_denied PASSED [ 14%]
+tests/test_requirements.py::test_login_logout_and_csrf PASSED            [ 15%]
+tests/test_requirements.py::test_reference_crud_and_protected_delete PASSED [ 16%]
+tests/test_requirements.py::test_project_delete_requires_confirmation PASSED [ 18%]
+tests/test_requirements.py::test_table_and_csv_share_filters_and_F_labels PASSED [ 19%]
+tests/test_requirements.py::test_filters_by_date_developer_and_technology PASSED [ 21%]
+tests/test_requirements.py::test_empty_state_and_zero_groups PASSED      [ 22%]
+tests/test_requirements.py::test_json_export_roundtrip_and_no_overwrite PASSED [ 23%]
+tests/test_web.py::test_import_preserves_all_data_and_links PASSED       [ 25%]
+tests/test_web.py::test_import_does_not_overwrite PASSED                 [ 26%]
+tests/test_web.py::test_pages[/] PASSED                                  [ 28%]
+tests/test_web.py::test_pages[/about/] PASSED                            [ 29%]
+tests/test_web.py::test_pages[/projects/] PASSED                         [ 30%]
+tests/test_web.py::test_pages[/projects/1/] PASSED                       [ 32%]
+tests/test_web.py::test_pages[/developers/] PASSED                       [ 33%]
+tests/test_web.py::test_pages[/developers/1/] PASSED                     [ 35%]
+tests/test_web.py::test_pages[/technologies/] PASSED                     [ 36%]
+tests/test_web.py::test_pages[/statistics/] PASSED                       [ 38%]
+tests/test_web.py::test_pages[/available/] PASSED                        [ 39%]
+tests/test_web.py::test_404[/projects/999/] PASSED                       [ 40%]
+tests/test_web.py::test_404[/developers/999/] PASSED                     [ 42%]
+tests/test_web.py::test_404[/projects/by-slug/missing/] PASSED           [ 43%]
+tests/test_web.py::test_404[/not-found/] PASSED                          [ 45%]
+tests/test_web.py::test_bad_filters[status=abc] PASSED                   [ 46%]
+tests/test_web.py::test_bad_filters[status=4] PASSED                     [ 47%]
+tests/test_web.py::test_bad_filters[sort=__class__] PASSED               [ 49%]
+tests/test_web.py::test_bad_date PASSED                                  [ 50%]
+tests/test_web.py::test_search_and_sort PASSED                           [ 52%]
+tests/test_web.py::test_pagination_preserves_filters PASSED              [ 53%]
+tests/test_web.py::test_transitions_and_generated_field PASSED           [ 54%]
+tests/test_web.py::test_required_technology_and_protected_owner PASSED   [ 56%]
+tests/test_web.py::test_crud_form_admin_and_csrf PASSED                  [ 57%]
+tests/test_web.py::test_empty_technology_form_rejected PASSED            [ 59%]
+tests/test_web.py::test_slug_queries_and_statistics PASSED               [ 60%]
+tests/test_web.py::test_eager_loading_reduces_queries PASSED             [ 61%]
+tests/test_web.py::test_availability_excludes_completed PASSED           [ 63%]
+tests/test_web.py::test_failed_save_shows_form_error PASSED              [ 64%]
+tests/test_requirements.py::test_migration_1_to_3_preserves_data_slug_and_status_codes PASSED [ 66%]
+tests/test_models.py::test_composition_and_methods PASSED                [ 67%]
+tests/test_models.py::test_status_property_is_read_only PASSED           [ 69%]
+tests/test_models.py::test_polymorphism_and_classmethod PASSED           [ 70%]
+tests/test_models.py::test_json_restores_shared_references PASSED        [ 71%]
+tests/test_requirements.py::test_sql_import_queries_and_constraints PASSED [ 73%]
+tests/test_service.py::test_pr1_functions PASSED                         [ 74%]
+tests/test_service.py::test_add_project PASSED                           [ 76%]
+tests/test_service.py::test_search_case_insensitive PASSED               [ 77%]
+tests/test_service.py::test_sort_and_filter PASSED                       [ 78%]
+tests/test_service.py::test_status_transition PASSED                     [ 80%]
+tests/test_service.py::test_invalid_transition_is_atomic PASSED          [ 81%]
+tests/test_service.py::test_invalid_project_does_not_mutate[999-techs0-2026-09-30] PASSED [ 83%]
+tests/test_service.py::test_invalid_project_does_not_mutate[1-techs1-2026-09-30] PASSED [ 84%]
+tests/test_service.py::test_invalid_project_does_not_mutate[1-techs2-2026-09-30] PASSED [ 85%]
+tests/test_service.py::test_invalid_project_does_not_mutate[1-techs3-2026-09-30] PASSED [ 87%]
+tests/test_service.py::test_invalid_project_does_not_mutate[1-techs4-2026-02-30] PASSED [ 88%]
+tests/test_service.py::test_statistics_excludes_completed PASSED         [ 90%]
+tests/test_service.py::test_references PASSED                            [ 91%]
+tests/test_service.py::test_round_trip PASSED                            [ 92%]
+tests/test_service.py::test_broken_reference_rejected PASSED             [ 94%]
+tests/test_service.py::test_duplicate_id_rejected PASSED                 [ 95%]
+tests/test_service.py::test_corrupt_json_not_overwritten PASSED          [ 97%]
 tests/test_service.py::test_missing_file PASSED                          [ 98%]
 tests/test_service.py::test_empty_name PASSED                            [100%]
 
-============================= 52 passed in 3.42s ==============================
+============================= 71 passed in 5.85s ==============================
 EXIT CODE: 0
 
 COMMAND: python -m flake8 .
 EXIT CODE: 0
+
+COMMAND: python manage.py shell -c from tracker.orm_examples import examples; result=examples(); print("ORM expressions:", len(result)); assert len(result)>=15
+10 objects imported automatically (use -v 2 for details).
+
+ORM expressions: 21
+EXIT CODE: 0
+
+COMMAND: python -m db.check_queries --cli C:/msys64/mingw64/bin/sqlite3.exe
+{
+  "sqlite_cli": "C:/msys64/mingw64/bin/sqlite3.exe",
+  "results": [
+    {
+      "query": 1,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "developer_id": 2,
+          "status_id": 1,
+          "deadline": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "query": 2,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "developer_id": 2,
+          "status_id": 1,
+          "deadline": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "query": 3,
+      "rows": [
+        {
+          "name": "Система учета программных проектов",
+          "developer": "Анна Смирнова"
+        },
+        {
+          "name": "Сервис отчетов",
+          "developer": "Иван Петров"
+        }
+      ]
+    },
+    {
+      "query": 4,
+      "rows": [
+        {
+          "name": "Система учета программных проектов",
+          "technology": "Python"
+        },
+        {
+          "name": "Система учета программных проектов",
+          "technology": "Django"
+        },
+        {
+          "name": "Сервис отчетов",
+          "technology": "Python"
+        }
+      ]
+    },
+    {
+      "query": 5,
+      "rows": [
+        {
+          "total": 2
+        }
+      ]
+    },
+    {
+      "query": 6,
+      "rows": [
+        {
+          "first_deadline": "2026-09-20",
+          "last_deadline": "2026-12-20"
+        }
+      ]
+    },
+    {
+      "query": 7,
+      "rows": [
+        {
+          "name": "Запланирован",
+          "total": 1
+        },
+        {
+          "name": "В работе",
+          "total": 1
+        },
+        {
+          "name": "Завершен",
+          "total": 0
+        }
+      ]
+    },
+    {
+      "query": 8,
+      "rows": [
+        {
+          "name": "Анна Смирнова",
+          "total": 1
+        },
+        {
+          "name": "Иван Петров",
+          "total": 1
+        }
+      ]
+    },
+    {
+      "query": 9,
+      "rows": []
+    },
+    {
+      "query": 10,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "deadline": "2026-09-20"
+        },
+        {
+          "id": 1,
+          "name": "Система учета программных проектов",
+          "deadline": "2026-12-20"
+        }
+      ]
+    },
+    {
+      "query": 11,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "developer_id": 2,
+          "status_id": 1,
+          "deadline": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "query": 12,
+      "rows": [
+        {
+          "name": "Python",
+          "total": 2
+        },
+        {
+          "name": "Django",
+          "total": 1
+        }
+      ]
+    }
+  ]
+}
+EXIT CODE: 0
+
+Исходные модули, JSON и тесты ПР3: побайтовое совпадение подтверждено для всех 9 файлов.

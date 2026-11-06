@@ -1,0 +1,50 @@
+[
+  {
+    "scenario": "Permanent administrator login",
+    "passed": true
+  },
+  {
+    "scenario": "Create project, replace sole technology, change status",
+    "passed": true
+  },
+  {
+    "scenario": "Delete project through confirmation",
+    "passed": true
+  },
+  {
+    "scenario": "/",
+    "status": 200
+  },
+  {
+    "scenario": "/projects/",
+    "status": 200
+  },
+  {
+    "scenario": "/projects/?q=Django&status=2&view=table",
+    "status": 200
+  },
+  {
+    "scenario": "/projects/1/",
+    "status": 200
+  },
+  {
+    "scenario": "/statistics/",
+    "status": 200
+  },
+  {
+    "scenario": "/admin/tracker/project/",
+    "status": 200
+  },
+  {
+    "scenario": "/admin/tracker/developer/1/change/",
+    "status": 200
+  },
+  {
+    "scenario": "Debug Toolbar rendered SQL statements",
+    "passed": true
+  },
+  {
+    "scenario": "Mobile layout 390px without horizontal overflow",
+    "passed": true
+  }
+]

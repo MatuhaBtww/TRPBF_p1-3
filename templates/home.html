@@ -1,2 +1,14 @@
-{% extends 'base.html' %}{% block content %}<h1>Система учета программных проектов</h1>
-<p>Планирование, ответственные разработчики, технологии и контроль сроков.</p><a class="button" href="{% url 'tracker:projects' %}">Открыть проекты</a>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Обзор · Учет проектов{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Рабочее пространство</p><h1>Проекты под контролем</h1><p class="muted">Ответственные, технологии и сроки — в одном месте.</p></div><a class="button" href="{% url 'tracker:projects' %}">Открыть проекты</a></div>
+<section class="metrics" aria-label="Сводка">
+  <a class="metric" href="{% url 'tracker:projects' %}"><span>Всего проектов</span><strong>{{ summary.total }}</strong></a>
+  <a class="metric" href="{% url 'tracker:projects' %}?status=2"><span>В работе</span><strong>{{ summary.active }}</strong></a>
+  <a class="metric" href="{% url 'tracker:projects' %}?status=3"><span>Завершено</span><strong>{{ summary.completed }}</strong></a>
+  <a class="metric" href="{% url 'tracker:statistics' %}"><span>Просрочено</span><strong>{{ summary.overdue }}</strong></a>
+</section>
+<div class="section-heading"><h2>Ближайшие сроки незавершенных проектов</h2>{% if perms.tracker.add_project and user.is_staff %}<a href="{% url 'tracker:create' %}">Добавить проект</a>{% endif %}</div>
+{% for p in upcoming %}{% include 'includes/project_card.html' %}{% empty %}<div class="empty">Незавершенных проектов пока нет.</div>{% endfor %}
+{% if not user.is_authenticated %}<p class="muted">Просмотр доступен без входа. Для добавления и изменения данных войдите в учетную запись сотрудника.</p>{% endif %}
+{% endblock %}

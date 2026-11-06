@@ -1,0 +1,150 @@
+{
+  "sqlite_cli": "C:/msys64/mingw64/bin/sqlite3.exe",
+  "results": [
+    {
+      "query": 1,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "developer_id": 2,
+          "status_id": 1,
+          "deadline": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "query": 2,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "developer_id": 2,
+          "status_id": 1,
+          "deadline": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "query": 3,
+      "rows": [
+        {
+          "name": "Система учета программных проектов",
+          "developer": "Анна Смирнова"
+        },
+        {
+          "name": "Сервис отчетов",
+          "developer": "Иван Петров"
+        }
+      ]
+    },
+    {
+      "query": 4,
+      "rows": [
+        {
+          "name": "Система учета программных проектов",
+          "technology": "Python"
+        },
+        {
+          "name": "Система учета программных проектов",
+          "technology": "Django"
+        },
+        {
+          "name": "Сервис отчетов",
+          "technology": "Python"
+        }
+      ]
+    },
+    {
+      "query": 5,
+      "rows": [
+        {
+          "total": 2
+        }
+      ]
+    },
+    {
+      "query": 6,
+      "rows": [
+        {
+          "first_deadline": "2026-09-20",
+          "last_deadline": "2026-12-20"
+        }
+      ]
+    },
+    {
+      "query": 7,
+      "rows": [
+        {
+          "name": "Запланирован",
+          "total": 1
+        },
+        {
+          "name": "В работе",
+          "total": 1
+        },
+        {
+          "name": "Завершен",
+          "total": 0
+        }
+      ]
+    },
+    {
+      "query": 8,
+      "rows": [
+        {
+          "name": "Анна Смирнова",
+          "total": 1
+        },
+        {
+          "name": "Иван Петров",
+          "total": 1
+        }
+      ]
+    },
+    {
+      "query": 9,
+      "rows": []
+    },
+    {
+      "query": 10,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "deadline": "2026-09-20"
+        },
+        {
+          "id": 1,
+          "name": "Система учета программных проектов",
+          "deadline": "2026-12-20"
+        }
+      ]
+    },
+    {
+      "query": 11,
+      "rows": [
+        {
+          "id": 2,
+          "name": "Сервис отчетов",
+          "developer_id": 2,
+          "status_id": 1,
+          "deadline": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "query": 12,
+      "rows": [
+        {
+          "name": "Python",
+          "total": 2
+        },
+        {
+          "name": "Django",
+          "total": 1
+        }
+      ]
+    }
+  ]
+}

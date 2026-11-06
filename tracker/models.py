@@ -1,18 +1,20 @@
 from datetime import date
 from uuid import uuid4
-from django.urls import reverse
-from django.db.models.functions import Lower
+
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
+from django.db.models.functions import Lower
+from django.urls import reverse
+
 from rules import STATUS_NAMES, validate_name, validate_transition
 
 
 class NamedEntity(models.Model):
-    name = models.CharField("Название", max_length=200)
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super().save(*args, **kwargs)
+    name = models.CharField(
+        "Название",
+        max_length=200,
+        help_text="От 1 до 200 символов; пробелы по краям удаляются.",
+    )
 
     class Meta:
         abstract = True
@@ -24,6 +26,16 @@ class NamedEntity(models.Model):
             self.name = validate_name(self.name)
         except ValueError as error:
             raise ValidationError({"name": str(error)})
+        if self._meta.model_name in ("developer", "technology"):
+            names = (
+                type(self).objects.exclude(pk=self.pk).values_list("name", flat=True)
+            )
+            if any(name.casefold() == self.name.casefold() for name in names):
+                raise ValidationError({"name": "Запись с таким именем уже существует."})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -67,24 +79,25 @@ class Status(NamedEntity):
 
     def clean(self):
         super().clean()
-        if (
-            STATUS_NAMES.get(self.pk) != self.name
-            or {1: "planned", 2: "active", 3: "completed"}.get(self.pk) != self.code
-        ):
+        codes = {1: self.Code.PLANNED, 2: self.Code.ACTIVE, 3: self.Code.COMPLETED}
+        if STATUS_NAMES.get(self.pk) != self.name or codes.get(self.pk) != self.code:
             raise ValidationError(
-                "ID и название статуса должны соответствовать правилам ПР3"
+                "ID, название и код статуса должны соответствовать правилам ПР3"
             )
 
 
 class ProjectQuerySet(models.QuerySet):
     def active(self):
-        return self.exclude(status_id=3)
+        return self.exclude(status__code=Status.Code.COMPLETED)
 
     def completed(self):
-        return self.filter(status_id=3)
+        return self.filter(status__code=Status.Code.COMPLETED)
 
     def planned(self):
-        return self.filter(status_id=1)
+        return self.filter(status__code=Status.Code.PLANNED)
+
+    def in_progress(self):
+        return self.filter(status__code=Status.Code.ACTIVE)
 
     def for_date(self, value):
         return self.filter(deadline=value)
@@ -112,10 +125,6 @@ class Project(NamedEntity):
         output_field=models.BooleanField(),
         db_persist=True,
     )
-
-    def get_absolute_url(self):
-        return reverse("tracker:slug_detail", kwargs={"slug": self.slug})
-
     developer = models.ForeignKey(
         Developer,
         verbose_name="Ответственный",
@@ -130,15 +139,23 @@ class Project(NamedEntity):
         default=1,
     )
     technologies = models.ManyToManyField(
-        Technology, verbose_name="Технологии", related_name="projects"
+        Technology,
+        verbose_name="Технологии",
+        related_name="projects",
+        help_text="Выберите хотя бы одну технологию.",
     )
-    deadline = models.DateField("Срок завершения")
+    deadline = models.DateField(
+        "Срок завершения", help_text="Плановая дата завершения проекта."
+    )
     objects = ProjectQuerySet.as_manager()
 
     class Meta:
         ordering = ["deadline", "pk"]
         verbose_name = "Проект"
         verbose_name_plural = "Проекты"
+
+    def get_absolute_url(self):
+        return reverse("tracker:slug_detail", kwargs={"slug": self.slug})
 
     def clean(self):
         super().clean()
@@ -149,10 +166,6 @@ class Project(NamedEntity):
                     validate_transition(previous.status_id, self.status_id)
                 except ValueError as error:
                     raise ValidationError({"status": str(error)})
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super().save(*args, **kwargs)
 
     @transaction.atomic
     def change_status(self, target):

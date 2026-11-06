@@ -1,7 +1,13 @@
-{% extends 'base.html' %}{% block content %}<h1>Проекты</h1>
-{% if user.is_staff %}<a href="{% url 'tracker:create' %}">Добавить проект</a>{% endif %}
-<form method="get"><label>Поиск <input name="q" value="{{ request.GET.q }}" placeholder="Проект, разработчик, технология"></label>
-<label>Статус <select name="status"><option value="">Все</option>{% for s in statuses %}<option value="{{ s.pk }}" {% if selected_status == s.pk|stringformat:'s' %}selected{% endif %}>{{ s.name }}</option>{% endfor %}</select></label>
-<label>Сортировка <select name="sort"><option value="deadline" {% if sort == 'deadline' %}selected{% endif %}>Ближайший срок</option><option value="-deadline" {% if sort == '-deadline' %}selected{% endif %}>Поздний срок</option><option value="name" {% if sort == 'name' %}selected{% endif %}>Название А–Я</option><option value="-name" {% if sort == '-name' %}selected{% endif %}>Название Я–А</option></select></label><button>Применить</button></form>
-{% for p in projects %}{% include 'includes/project_card.html' %}{% empty %}<p>Проекты не найдены.</p>{% endfor %}
-<nav aria-label="Страницы">{% if page.has_previous %}<a href="?{{ params }}&amp;page={{ page.previous_page_number }}">Назад</a>{% endif %}<span>Страница {{ page.number }} из {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ params }}&amp;page={{ page.next_page_number }}">Далее</a>{% endif %}</nav>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Проекты · Учет проектов{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Проекты</h1><p class="muted">Найдено: {{ page.paginator.count }} · по 5 записей на странице</p></div>{% if user.is_staff and perms.tracker.add_project %}<a class="button" href="{% url 'tracker:create' %}">Добавить проект</a>{% endif %}</div>
+<form method="get" class="filter-form">
+  {% if table %}<input type="hidden" name="view" value="table">{% endif %}
+  {% for field in form %}<div class="field {% if field.name == 'q' %}wide{% endif %}">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}
+  <div class="filter-actions"><button type="submit">Применить</button><a href="{% url 'tracker:projects' %}">Сбросить</a></div>
+</form>
+<div class="toolbar"><div><a href="?{{ switch_params }}" {% if not table %}aria-current="page"{% endif %}>Карточки</a><a href="?{{ switch_params }}&amp;view=table" {% if table %}aria-current="page"{% endif %}>Таблица</a></div><a href="{% url 'tracker:export' %}?{{ params }}">Скачать CSV</a></div>
+{% if table %}{% include 'includes/project_table.html' %}{% else %}{% for p in projects %}{% include 'includes/project_card.html' %}{% empty %}<div class="empty"><h2>Проекты не найдены.</h2><p>Измените условия поиска или добавьте первый проект.</p></div>{% endfor %}{% endif %}
+{% include 'includes/pagination.html' %}
+{% endblock %}

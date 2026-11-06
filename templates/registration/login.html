@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Вход · Учет проектов{% endblock %}
+{% block content %}<div class="login-wrap"><h1>Вход в систему</h1><p class="muted">Войдите, чтобы работать с проектами и справочниками.</p><form method="post" class="edit-form">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<input type="hidden" name="next" value="{{ next }}"><button>Войти</button></form><p class="muted">Данные локального администратора сохранены в файле .private/admin-access.txt в папке проекта.</p></div>{% endblock %}

@@ -55,7 +55,15 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-if DEBUG and os.environ.get("ENABLE_DEBUG_TOOLBAR", "1") == "1":
+if DEBUG and os.environ.get("ENABLE_DEBUG_TOOLBAR", "0") == "1":
     INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 INTERNAL_IPS = ["127.0.0.1"]
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "tracker:projects"
+LOGOUT_REDIRECT_URL = "tracker:home"
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "tracker:projects"
+LOGOUT_REDIRECT_URL = "tracker:home"

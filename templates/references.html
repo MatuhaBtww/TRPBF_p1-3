@@ -1,2 +1,9 @@
-{% extends 'base.html' %}{% block content %}<h1>{{ title }}</h1>
-<ul>{% for item in items %}<li>{% if title == 'Разработчики' %}<a href="{% url 'tracker:developer' item.id %}">{{ item.name }}</a>{% else %}{{ item.name }}{% endif %}</li>{% empty %}<li>Записей нет.</li>{% endfor %}</ul>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}{{ title }} · Учет проектов{% endblock %}
+{% block content %}
+<div class="page-heading"><h1>{{ title }}</h1>{% if user.is_staff %}{% if kind == 'developer' and perms.tracker.add_developer %}<a class="button" href="{% url 'tracker:developer_create' %}">Добавить разработчика</a>{% elif kind == 'technology' and perms.tracker.add_technology %}<a class="button" href="{% url 'tracker:technology_create' %}">Добавить технологию</a>{% endif %}{% endif %}</div>
+<div class="table-wrap"><table><thead><tr><th>Название</th><th>Проектов</th>{% if kind == 'developer' %}<th>Незавершенных</th>{% endif %}{% if user.is_staff %}<th>Действия</th>{% endif %}</tr></thead><tbody>
+{% for item in items %}<tr><td>{% if kind == 'developer' %}<a href="{% url 'tracker:developer' item.pk %}">{{ item.name }}</a>{% else %}{{ item.name }}{% endif %}</td><td>{{ item.total }}</td>{% if kind == 'developer' %}<td>{{ item.active_total }}</td>{% endif %}
+{% if user.is_staff %}<td class="actions">{% if kind == 'developer' %}{% if perms.tracker.change_developer %}<a href="{% url 'tracker:developer_edit' item.pk %}">Изменить</a>{% endif %}{% if perms.tracker.delete_developer %}<a class="danger-link" href="{% url 'tracker:developer_delete' item.pk %}">Удалить</a>{% endif %}{% else %}{% if perms.tracker.change_technology %}<a href="{% url 'tracker:technology_edit' item.pk %}">Изменить</a>{% endif %}{% if perms.tracker.delete_technology %}<a class="danger-link" href="{% url 'tracker:technology_delete' item.pk %}">Удалить</a>{% endif %}{% endif %}</td>{% endif %}</tr>
+{% empty %}<tr><td colspan="4">Записей нет.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

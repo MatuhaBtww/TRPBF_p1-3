@@ -1,4 +1,6 @@
 from django.core.exceptions import ValidationError
+from django.db.models.deletion import ProtectedError
+from django.db.models import QuerySet
 from django.db.models.signals import m2m_changed, pre_delete
 from django.dispatch import receiver
 from .models import Project, Technology
@@ -24,5 +26,17 @@ def require_technology(sender, instance, action, reverse, pk_set, **kwargs):
 
 @receiver(pre_delete, sender=Technology)
 def protect_last_technology(sender, instance, **kwargs):
-    if any(p.technologies.count() == 1 for p in instance.projects.all()):
-        raise ValidationError("Нельзя удалить единственную технологию проекта")
+    origin = kwargs.get("origin")
+    removed = (
+        set(origin.values_list("pk", flat=True))
+        if isinstance(origin, QuerySet) and origin.model is Technology
+        else {instance.pk}
+    )
+    if any(
+        not ({t.pk for t in p.technologies.all()} - removed)
+        for p in instance.projects.prefetch_related("technologies")
+    ):
+        raise ProtectedError(
+            "Нельзя удалить единственную технологию проекта",
+            list(instance.projects.all()),
+        )

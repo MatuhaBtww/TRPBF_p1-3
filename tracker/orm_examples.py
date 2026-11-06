@@ -4,6 +4,7 @@ from .models import Project, Developer
 
 
 def examples():
+    first = Project.objects.order_by("pk").first()
     return {
         "all": list(Project.objects.all()),
         "filter": list(Project.objects.filter(status_id=1)),
@@ -22,7 +23,7 @@ def examples():
         "sort": list(Project.objects.order_by("-deadline", "pk")),
         "slice": list(Project.objects.order_by("pk")[0:5]),
         "first": Project.objects.order_by("pk").first(),
-        "get": Project.objects.get(pk=1),
+        "get": Project.objects.get(pk=first.pk) if first else None,
         "select_related": list(Project.objects.select_related("developer", "status")),
         "prefetch": list(Project.objects.prefetch_related("technologies")),
         "values": list(Project.objects.values("name", "developer__name")),

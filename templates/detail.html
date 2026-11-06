@@ -1,3 +1,7 @@
-{% extends 'base.html' %}{% block title %}{{ p.name }}{% endblock %}{% block content %}
-<h1>{{ p.name }}</h1>{% if user.is_staff %}<a href="{% url 'tracker:edit' p.pk %}">Изменить проект</a>{% endif %}<p>Ответственный: {{ p.developer.name }}</p><p>Статус: {{ p.status.name }}</p>
-<p>Срок: {{ p.deadline|date:'d.m.Y'|default:p.deadline }}</p><h2>Технологии</h2><ul>{% for t in technologies %}<li>{{ t.name }}</li>{% empty %}<li>Нет технологий</li>{% endfor %}</ul>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}{{ p.name }} · Учет проектов{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'tracker:projects' %}">← Все проекты</a>
+<div class="page-heading"><div><h1>{{ p.name }}</h1><span class="status status-{{ p.status.code }}">{{ p.status.name }}</span></div><div class="actions">{% if user.is_staff and perms.tracker.change_project %}<a class="button" href="{% url 'tracker:edit' p.pk %}">Изменить</a>{% endif %}{% if user.is_staff and perms.tracker.delete_project %}<a class="danger-link" href="{% url 'tracker:delete' p.pk %}">Удалить</a>{% endif %}</div></div>
+<section class="panel"><h2>Сведения о проекте</h2><dl><dt>Ответственный</dt><dd><a href="{% url 'tracker:developer' p.developer_id %}">{{ p.developer.name }}</a></dd><dt>Срок завершения</dt><dd>{{ p.deadline|date:'d.m.Y' }}{% if not p.is_completed %}{% if remaining < 0 %} <span class="warning">Срок истек</span>{% else %} <span class="muted">Осталось дней: {{ remaining }}</span>{% endif %}{% endif %}</dd><dt>Идентификатор</dt><dd>{{ p.pk }}</dd></dl><h2>Технологии</h2><div class="tags">{% for t in technologies %}<span class="tag">{{ t.name }}</span>{% empty %}<span>Нет технологий</span>{% endfor %}</div></section>
+{% endblock %}

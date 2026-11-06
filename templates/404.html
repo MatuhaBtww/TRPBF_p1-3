@@ -1,1 +1,1 @@
-{% extends 'base.html' %}{% block content %}<h1>Страница не найдена</h1><p>Проверьте адрес или перейдите в список проектов.</p>{% endblock %}
+{% extends 'base.html' %}{% block content %}<h1>Страница не найдена</h1><p>Запись удалена или адрес указан неверно.</p><a class="button" href="{% url 'tracker:projects' %}">Открыть проекты</a>{% endblock %}
