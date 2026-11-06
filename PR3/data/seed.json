@@ -1,0 +1,59 @@
+{
+  "developers": [
+    {
+      "id": 1,
+      "name": "Анна Смирнова"
+    },
+    {
+      "id": 2,
+      "name": "Иван Петров"
+    }
+  ],
+  "technologies": [
+    {
+      "id": 1,
+      "name": "Python"
+    },
+    {
+      "id": 2,
+      "name": "Django"
+    }
+  ],
+  "statuses": [
+    {
+      "id": 1,
+      "name": "Запланирован"
+    },
+    {
+      "id": 2,
+      "name": "В работе"
+    },
+    {
+      "id": 3,
+      "name": "Завершен"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Система учета программных проектов",
+      "developer_id": 1,
+      "technology_ids": [
+        1,
+        2
+      ],
+      "deadline": "2026-12-20",
+      "status_id": 2
+    },
+    {
+      "id": 2,
+      "name": "Сервис отчетов",
+      "developer_id": 2,
+      "technology_ids": [
+        1
+      ],
+      "deadline": "2026-09-20",
+      "status_id": 1
+    }
+  ]
+}
