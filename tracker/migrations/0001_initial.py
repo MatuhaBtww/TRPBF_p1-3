@@ -8,64 +8,124 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Developer',
+            name="Developer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="Название")),
             ],
             options={
-                'verbose_name': 'Разработчик',
-                'verbose_name_plural': 'Разработчики',
-                'ordering': ['name', 'pk'],
-                'abstract': False,
+                "verbose_name": "Разработчик",
+                "verbose_name_plural": "Разработчики",
+                "ordering": ["name", "pk"],
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Technology',
+            name="Technology",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="Название")),
             ],
             options={
-                'verbose_name': 'Технология',
-                'verbose_name_plural': 'Технологии',
-                'ordering': ['name', 'pk'],
-                'abstract': False,
+                "verbose_name": "Технология",
+                "verbose_name_plural": "Технологии",
+                "ordering": ["name", "pk"],
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Status',
+            name="Status",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="Название")),
             ],
             options={
-                'verbose_name': 'Статус',
-                'verbose_name_plural': 'Статусы',
-                'ordering': ['pk'],
-                'abstract': False,
-                'constraints': [models.CheckConstraint(condition=models.Q(('pk__in', [1, 2, 3])), name='known_status_id')],
+                "verbose_name": "Статус",
+                "verbose_name_plural": "Статусы",
+                "ordering": ["pk"],
+                "abstract": False,
+                "constraints": [
+                    models.CheckConstraint(
+                        condition=models.Q(("pk__in", [1, 2, 3])),
+                        name="known_status_id",
+                    )
+                ],
             },
         ),
         migrations.CreateModel(
-            name='Project',
+            name="Project",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, verbose_name='Название')),
-                ('deadline', models.DateField(verbose_name='Срок завершения')),
-                ('developer', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='projects', to='tracker.developer', verbose_name='Ответственный')),
-                ('status', models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, related_name='projects', to='tracker.status', verbose_name='Статус')),
-                ('technologies', models.ManyToManyField(related_name='projects', to='tracker.technology', verbose_name='Технологии')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="Название")),
+                ("deadline", models.DateField(verbose_name="Срок завершения")),
+                (
+                    "developer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="projects",
+                        to="tracker.developer",
+                        verbose_name="Ответственный",
+                    ),
+                ),
+                (
+                    "status",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="projects",
+                        to="tracker.status",
+                        verbose_name="Статус",
+                    ),
+                ),
+                (
+                    "technologies",
+                    models.ManyToManyField(
+                        related_name="projects",
+                        to="tracker.technology",
+                        verbose_name="Технологии",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Проект',
-                'verbose_name_plural': 'Проекты',
-                'ordering': ['deadline', 'pk'],
+                "verbose_name": "Проект",
+                "verbose_name_plural": "Проекты",
+                "ordering": ["deadline", "pk"],
             },
         ),
     ]

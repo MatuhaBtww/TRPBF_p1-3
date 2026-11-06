@@ -5,4 +5,4 @@
 <link rel="stylesheet" href="{% static 'style.css' %}"><script defer src="{% static 'app.js' %}"></script></head>
 <body><header><img src="{% static 'logo.svg' %}" width="44" alt="Логотип учета проектов"> <strong>Учет проектов</strong></header>
 {% include 'includes/nav.html' %}<main>{% block content %}{% endblock %}</main>
-<footer>Система учета программных проектов · ЭФБО-10-24</footer></body></html>
+<footer>Незавершенных проектов: {{ active_project_count }} · Система учета программных проектов · ЭФБО-10-24</footer></body></html>
